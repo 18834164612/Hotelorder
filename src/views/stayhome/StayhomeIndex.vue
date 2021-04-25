@@ -99,7 +99,7 @@ export default {
         cid: ''
       },
       paginate:{
-        page: 1,
+        page:  1,
         limit: 8
       },
       category:[],

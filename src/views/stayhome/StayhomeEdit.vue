@@ -8,7 +8,7 @@
               v-for="item in category"
               :key="item.cid"
               :label="item.cname"
-              :value="item.cid">
+              :value="item.cid" >
             </el-option>
           </el-select>
         </el-form-item>
