@@ -10,6 +10,7 @@ import categoryIndex from "@/views/category/categoryIndex"
 import categoryEdit from "@/views/category/categoryEdit"
 import StayhomeAdd from "@/views/stayhome/StayhomeAdd"
 import StayhomeIndex from "@/views/stayhome/StayhomeIndex"
+import StayhomeEdit from "@/views/stayhome/StayhomeEdit"
 let router = new VueRouter({
   routes: [
     {
@@ -64,6 +65,14 @@ let router = new VueRouter({
           name:'StayhomeIndex',
           meta: {
             title:'客房查看',
+            auth:true
+          }
+        },
+        {
+          path:'StayhomeEdit/:id',component:StayhomeEdit,
+          name:'StayhomeEdit',
+          meta: {
+            title:'客房编辑',
             auth:true
           }
         }

@@ -1,10 +1,11 @@
 <template>
   <div>
-    <div id="edit" class="toolbar">
+    <!-- <div id="edit" class="toolbar">
     </div>
     <div id="edits" class="text"> 
-      <p></p>
-    </div>
+      <p></p> 
+    </div> -->
+    <div id="edit" ref="edit"></div>
   </div>
 </template>
 <script>
@@ -43,6 +44,10 @@ export default {
     value:{
       type:String,
       default:''
+    },
+    formfield:{
+      required:true,
+      type:String
     }
   },
   data() {
@@ -54,13 +59,16 @@ export default {
   methods: {
     initRichText() {
       let that = this
-      let edit = new E('#edit','#edits')
+      let edit = new E(this.$refs.edit)
+      console.log(this.value)
+      // let edit = new E('#edit','#edits')
       edit.customConfig.menus = this.menus
       edit.customConfig.showLinkImg = false
       edit.customConfig.uploadImgServer = this.uploadurl
       edit.customConfig.upoladFileName = 'file'
       edit.customConfig.onchange = (html) => {
-        this.$emit('rich-change',html)
+        this.$emit('rich-change',this.formfield,html)
+        console.log(html)
       }
       edit.customConfig.uploadImgHooks = {
         customInsert:function(insertImg,result) {
@@ -77,11 +85,11 @@ export default {
 }
 </script>
 <style scoped>
-.toolbar {
+/* .toolbar {
             border: 1px solid #ccc;
         }
 .text {
     border: 1px solid #ccc;
     height: 200px;
-}
+} */
 </style>

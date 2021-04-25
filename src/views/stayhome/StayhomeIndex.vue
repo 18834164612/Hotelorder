@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="stayhomeindex">
     <loading :isshow="showloading"></loading>
     <el-form :inline="true">
       <el-form-item label="所属分类">
@@ -33,7 +33,7 @@
          </template>
       </el-table-column> 
       <el-table-column width="150" prop="sname" label="客房名称"></el-table-column>
-      <el-table-column width="150" prop="sprovince" label="所属区域">
+      <el-table-column width="170" prop="sprovince" label="所属区域">
         <template slot-scope="scope">
           {{scope.row.sprovince}}-{{scope.row.scity}}-{{scope.row.sarea}}
         </template>
@@ -52,7 +52,7 @@
          </template>
       </el-table-column>
       <el-table-column prop="sdesc" label="客房描述"></el-table-column>
-      <el-table-column width="100" prop="ctime" label="是否预约">
+      <el-table-column width="100" prop="ctime" label="是否可预约">
         <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.status == 1">
             {{ '是' }}
@@ -65,8 +65,10 @@
       <el-table-column width="100" prop="ctime" label="创建时间"></el-table-column>
       <el-table-column width="150" label="操作">
         <template slot-scope="scope">
-          <el-button size="small" type="danger" @click="handleDelete(scope.row.cid)">删除</el-button>
-          <el-button size="small" type="success" @click="handleEdit(scope.row.cid)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row.cid)">删除</el-button>
+          <el-button size="mini" type="success" >
+            <router-link style="color:#fff" :to="{name:'StayhomeEdit',params:{id:scope.row.sid}}">编辑</router-link>
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -102,7 +104,7 @@ export default {
       },
       category:[],
       tableData:[],
-      total:''
+      total:0
     }
   },
   components:{
@@ -113,6 +115,7 @@ export default {
       instance.get('/admin/category/indexAll').then((res)=>{
         if(res.code == 200) {
           this.category = res.data
+          this.category.push({cid:'',cname:'全部'})
         }else {
           this.$message.error('分类获取失败')
         }
@@ -172,4 +175,9 @@ export default {
 </script>
 <style scoped>
 
+</style>
+<style>
+body .el-table th.gutter{
+  display: table-cell!important;
+}
 </style>

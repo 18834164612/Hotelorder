@@ -51,6 +51,7 @@
             class="avatar-uploader"
             :action="uploadurl"
             list-type="picture-card"
+            :file-list="bannerFilelist                                                                                                           "
             multiple
             :limit="3"
             :on-success="handleBannerSuccess"
@@ -75,14 +76,10 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="客房详情:" style="width:96%">
-          <div id="sdetail1" class="toolbar">
-          </div>
-          <div id="sdetail2" class="text"> 
-            <p></p>
-          </div>
+          <rich-text formfield="sdetail" :value="stayhomeform.sdetail" @rich-change="setSnotice" v-if="stayhomeform.sdetail"></rich-text>
         </el-form-item>
         <el-form-item label="入住须知:" style="width:96%">
-          <rich-text @rich-change="setSnotice"></rich-text>
+          <rich-text formfield="snotice" @rich-change="setSnotice" :value="stayhomeform.snotice" v-if="stayhomeform.snotice"></rich-text>
         </el-form-item>
         <el-form-item style="text-align:center;width:90%">
           <el-button type="primary" @click="submit">提 交</el-button>
@@ -100,6 +97,7 @@ import loading from '../../components/loading/loading.vue'
 import E from 'wangeditor'
 import RichText from '../../components/rich-text/RichText.vue'
 import instance from '@/http/http'
+import {stayhomeRead} from "@/http/stayhome"
 export default {
   data () {
     return {
@@ -124,6 +122,7 @@ export default {
         sprovince: ''
       },
       bannerArr:[],
+      bannerFilelist:[],
       dialogImageUrl:'',
       dialogVisible: false,
       city,
@@ -157,12 +156,22 @@ export default {
     RichText
   },
   methods: {
+    initStayhome(sid) {
+      stayhomeRead(sid).then((res)=>{
+        this.stayhomeform = res.data
+        let sbanner1 = res.data.sbanner.split(/,|，/)
+        this.bannerArr = sbanner1
+        this.bannerFilelist = sbanner1.map(ele=>({
+          name:res.data.sname,url:this.IMGURL+ele
+        }))
+      }).catch((error)=>{
+        console.log(error)
+      })
+    },
     submit() {
       instance.post('/api/stayhome',this.stayhomeform).then((res)=>{
         if(res.code == 200) {
-          this.$message.success(res.msg)
-        }else{
-          this.$message.error(res.msg);
+           this.$message.success(res.msg)
         }
       }).catch((res)=>{
         console.log(res)
@@ -212,15 +221,20 @@ export default {
       this.stayhomeform.sbanner = this.bannerArr.join(',')
     },
     handleBannerRemove(file) {
-      let url = file.response.imgpath
-      this.bannerArr =  this.bannerArr.filter(ele=>ele!==url)
+      let url =file.response?file.response.imgpath:file.url
+      this.bannerArr =  this.bannerArr.filter(ele=>!url.includes(ele))
       this.stayhomeform.sbanner = this.bannerArr.join(',')
     },
     handleExceed() {
       this.$message.warning('当前限制选择 3 个文件')
     },
     handleBannerPreview(file) {
-      this.dialogImageUrl =this.IMGURL + file.response.imgpath;
+      if(file.response){
+        this.dialogImageUrl =this.IMGURL + file.response.imgpath;
+      }else{
+        this.dialogImageUrl = file.url
+      }
+      
       this.dialogVisible = true;
     },
     initRichText() {
@@ -232,15 +246,18 @@ export default {
     },
     setSnotice(field,html) {
       this.stayhomeform[field] = html
+      console.log(html)
     },
     setProvince() {
       this.province = this.city.map(ele=>ele.name)
     }
   },
   mounted () {
+    let sid = this.$route.params.id
+    this.initStayhome(sid)
     this.setProvince()
     this.getCategory()
-    this.initRichText()
+    //this.initRichText()
   }
 }
 </script>
