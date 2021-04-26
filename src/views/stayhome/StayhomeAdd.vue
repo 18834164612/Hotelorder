@@ -75,14 +75,10 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="客房详情:" style="width:96%">
-          <div id="sdetail1" class="toolbar">
-          </div>
-          <div id="sdetail2" class="text"> 
-            <p></p>
-          </div>
+          <rich-text formfield="sdetail" @rich-change="setSnotice"></rich-text>
         </el-form-item>
         <el-form-item label="入住须知:" style="width:96%">
-          <rich-text @rich-change="setSnotice"></rich-text>
+          <rich-text formfield="snotice" @rich-change="setSnotice"></rich-text>
         </el-form-item>
         <el-form-item style="text-align:center;width:90%">
           <el-button type="primary" @click="submit">提 交</el-button>
@@ -240,7 +236,7 @@ export default {
   mounted () {
     this.setProvince()
     this.getCategory()
-    this.initRichText()
+    // this.initRichText()
   }
 }
 </script>

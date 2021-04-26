@@ -9,7 +9,22 @@ function stayhomeRead (sid){
     })
   })
 }
-function stayhomeDelete (){
-
+function stayhomeDelete (sid){
+   return new Promise((resolve,reject)=>{
+     instance.delete('api/stayhome/'+sid).then(res=>{
+       resolve(res)
+     }).catch((error)=>{
+      reject(error)
+     })
+   })
 }
-export {stayhomeDelete,stayhomeRead}
+function stayhomeUpdate (sid,data) {
+  return new Promise((resolve,reject)=>{
+    instance.put('api/stayhome/'+sid,data).then((res)=>{
+      resolve(res)
+    }).catch((error)=>{
+      reject(error)
+    })
+  })
+}
+export {stayhomeDelete,stayhomeRead,stayhomeUpdate}

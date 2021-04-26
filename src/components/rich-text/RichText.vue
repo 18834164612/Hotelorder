@@ -60,15 +60,14 @@ export default {
     initRichText() {
       let that = this
       let edit = new E(this.$refs.edit)
-      console.log(this.value)
-      // let edit = new E('#edit','#edits')
+      
+      // let edit = new E('.toolbar','.text')
       edit.customConfig.menus = this.menus
       edit.customConfig.showLinkImg = false
       edit.customConfig.uploadImgServer = this.uploadurl
       edit.customConfig.upoladFileName = 'file'
       edit.customConfig.onchange = (html) => {
         this.$emit('rich-change',this.formfield,html)
-        console.log(html)
       }
       edit.customConfig.uploadImgHooks = {
         customInsert:function(insertImg,result) {
@@ -76,7 +75,7 @@ export default {
         }
       }
       edit.create()
-     this.value && edit.txt.html(this.value)
+      this.value && edit.txt.html(this.value)
     }
   },
   mounted() {
@@ -85,11 +84,12 @@ export default {
 }
 </script>
 <style scoped>
-/* .toolbar {
+.toolbar {
             border: 1px solid #ccc;
         }
 .text {
     border: 1px solid #ccc;
     height: 200px;
-} */
+}
+
 </style>

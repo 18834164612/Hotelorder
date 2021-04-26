@@ -42,10 +42,15 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="客房地址:" st>
+        <el-form-item label="客房地址:">
           <el-input v-model="stayhomeform.saddress"></el-input>
         </el-form-item>
-        <el-form-item></el-form-item>
+        <el-form-item label="是否可预约:" style="margin-left:60px">
+          <el-radio-group v-model="stayhomeform.status" size="small">
+            <el-radio-button label="1">是</el-radio-button>
+            <el-radio-button label="0">否</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="轮播图:">
           <el-upload
             class="avatar-uploader"
@@ -76,7 +81,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="客房详情:" style="width:96%">
-          <rich-text formfield="sdetail" :value="stayhomeform.sdetail" @rich-change="setSnotice" v-if="stayhomeform.sdetail"></rich-text>
+          <rich-text formfield="sdetail" @rich-change="setSnotice" :value="stayhomeform.sdetail" v-if="stayhomeform.sdetail"></rich-text>
         </el-form-item>
         <el-form-item label="入住须知:" style="width:96%">
           <rich-text formfield="snotice" @rich-change="setSnotice" :value="stayhomeform.snotice" v-if="stayhomeform.snotice"></rich-text>
@@ -97,7 +102,7 @@ import loading from '../../components/loading/loading.vue'
 import E from 'wangeditor'
 import RichText from '../../components/rich-text/RichText.vue'
 import instance from '@/http/http'
-import {stayhomeRead} from "@/http/stayhome"
+import {stayhomeRead,stayhomeUpdate} from "@/http/stayhome"
 export default {
   data () {
     return {
@@ -169,14 +174,17 @@ export default {
       })
     },
     submit() {
-      instance.post('/api/stayhome',this.stayhomeform).then((res)=>{
-        if(res.code == 200) {
-           this.$message.success(res.msg)
-        }
-      }).catch((res)=>{
-        console.log(res)
-        this.$message.error("数据添加失败");
-      })
+      stayhomeUpdate(this.stayhomeform.sid,this.stayhomeform)
+        .then((res)=>{
+          if(res.code==200){
+            this.$message.success('数据修改成功');
+          }else{
+            this.$message.error('数据修改失败');
+          }
+        }).catch((err)=>{
+          console.log(err)
+          this.$message.error('数据修改失败!');
+        })
     },
     getCategory () {
       this.showloading = true

@@ -65,7 +65,7 @@
       <el-table-column width="100" prop="ctime" label="创建时间"></el-table-column>
       <el-table-column width="150" label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row.cid)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.row.sid)">删除</el-button>
           <el-button size="mini" type="success" >
             <router-link style="color:#fff" :to="{name:'StayhomeEdit',params:{id:scope.row.sid}}">编辑</router-link>
           </el-button>
@@ -88,6 +88,7 @@
 import {IMGURL} from '@/lib/base'
 import instance from '@/http/http'
 import loading from '../../components/loading/loading.vue'
+import {stayhomeDelete} from "@/http/stayhome"
 export default {
   data() {
     return{
@@ -144,6 +145,7 @@ export default {
           this.total = res.total
         }else {
           this.showloading = false
+          this.tableData = []
           this.$message.success('暂无数据')
         }
       }).catch((res)=>{
@@ -160,12 +162,20 @@ export default {
       this.paginate.page = val
       this.getTableList()
     },
-    handleDelete() {
-
+    handleDelete(sid) {
+      stayhomeDelete(sid).then(res=>{ 
+        if(res.code === 200){
+          this.$message.success('删除成功')
+          this.getTableList()
+        }else{
+          console.log(2222)
+          this.$message.error('删除失败')
+        }
+      }).catch(error=>{
+        console.log(error)
+        this.$message.error('删除失败')
+      })
     },
-    handleEdit() {
-
-    }
   },
   mounted() {
     this.getCategory()
