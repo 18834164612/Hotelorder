@@ -140,7 +140,7 @@ export default {
               date.getDate(),
             ].join("-");
             return ele;
-          })
+          }) 
           this.tableData = Data
           this.total = res.total
         }else {
