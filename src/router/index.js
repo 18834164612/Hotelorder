@@ -11,6 +11,8 @@ import categoryEdit from "@/views/category/categoryEdit"
 import StayhomeAdd from "@/views/stayhome/StayhomeAdd"
 import StayhomeIndex from "@/views/stayhome/StayhomeIndex"
 import StayhomeEdit from "@/views/stayhome/StayhomeEdit"
+import User from "@/views/user/user"
+import Orders from "@/views/orders/orders"
 let router = new VueRouter({
   routes: [
     {
@@ -74,6 +76,19 @@ let router = new VueRouter({
           meta: {
             title:'客房编辑',
             auth:true
+          }
+        },
+        {
+          path:'/user', component:User,name:'user',
+          meta:{
+            auth: true,
+            title: '用户管理'
+          }
+        },{
+          path:'/orders', component:Orders,name:'orders',
+          meta:{
+            auth: true,
+            title: '订单管理'
           }
         }
       ]

@@ -28,7 +28,7 @@
       <el-container style="height:90%">
         <el-aside class="aside" width="200px">
           <el-menu
-            default-active="2"
+            default-active="1"
             class="el-menu-vertical-demo"
             background-color="rgb(255,255,255,0)"
             text-color="#fff"
@@ -57,6 +57,18 @@
                   <router-link to="/StayhomeIndex">客 房 查 看</router-link>
                 </el-menu-item>
             </el-submenu>
+            <el-menu-item index="3">
+                <template slot="title">
+                  <i class="el-icon-s-custom" style="color:#fff;margin-right:10px"></i>
+                  <router-link to="/user" style="color:#fff">用 户 管 理</router-link>
+                </template>
+            </el-menu-item>
+            <el-menu-item index="4">
+                <template slot="title">
+                  <i class="el-icon-s-goods" style="color:#fff;margin-right:10px"></i>
+                  <router-link to="/orders" style="color:#fff">订 单 管 理</router-link>
+                </template>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-container>

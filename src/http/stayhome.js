@@ -27,4 +27,40 @@ function stayhomeUpdate (sid,data) {
     })
   })
 }
-export {stayhomeDelete,stayhomeRead,stayhomeUpdate}
+function getuserData (params) {
+  return new Promise((resolve,reject)=>{
+    instance.get('api/user',params).then((res)=>{
+      resolve(res)
+    }).catch((error)=>{
+      reject(error)
+    })
+  })
+}
+function userDelete (uid) {
+  return new Promise((resolve,reject)=>{
+    instance.delete('api/user/'+uid).then((res)=>{
+      resolve(res)
+    }).catch((error)=>{
+      reject(error)
+    })
+  })
+}
+function orderList (params) {
+  return new Promise((resolve,reject)=>{
+    instance.get('admin/orders',{params}).then((res)=>{
+      resolve(res)
+    }).catch((error)=>{
+      reject(error)
+    })
+  })
+}
+function orderDelete (oid) {
+  return new Promise((resolve,reject)=>{
+    instance.delete('admin/orders/'+oid).then((res)=>{
+      resolve(res)
+    }).catch((error)=>{
+      reject(error)
+    })
+  })
+}
+export {stayhomeDelete,stayhomeRead,stayhomeUpdate,getuserData,userDelete,orderList,orderDelete}

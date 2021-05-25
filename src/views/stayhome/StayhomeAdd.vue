@@ -42,7 +42,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="客房地址:" st>
+        <el-form-item label="客房地址:">
           <el-input v-model="stayhomeform.saddress"></el-input>
         </el-form-item>
         <el-form-item></el-form-item>

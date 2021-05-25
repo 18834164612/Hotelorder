@@ -39,10 +39,10 @@
         </template>
       </el-table-column>
       <el-table-column width="100" prop="sprice" label="价 格"></el-table-column>
-      <el-table-column width="150" label="特 色">
+      <el-table-column width="150" label="类 型">
         <template slot-scope="scope">
-          <el-tag type="success" v-for="(item,index) in scope.row.stag" :key="index">
-            {{ item }}
+          <el-tag type="success">
+            {{ category[scope.row.cid].cname }}
           </el-tag>
         </template>
       </el-table-column>
